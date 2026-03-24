@@ -1,0 +1,217 @@
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forgive Me Saumya</title>
+
+<style>
+body{
+  margin:0;
+  font-family: system-ui;
+  background:linear-gradient(135deg,#dbeafe,#ffffff);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  overflow:hidden;
+}
+
+/* card */
+.card{
+  max-width:360px;
+  padding:25px;
+  border-radius:20px;
+  background:#fff;
+  box-shadow:0 15px 40px rgba(0,0,0,0.2);
+  text-align:center;
+  animation:fade 0.5s ease;
+}
+
+h2{margin-bottom:10px}
+p{opacity:0.85; min-height:90px; white-space:pre-line}
+
+button{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:bold;
+}
+
+.yes{background:#000;color:#fff}
+.no{background:#eee}
+
+/* animations */
+@keyframes fade{
+  from{opacity:0; transform:translateY(10px)}
+  to{opacity:1}
+}
+
+.float{
+  position:absolute;
+  font-size:28px;
+  bottom:-50px;
+  animation:float 5s linear infinite;
+}
+
+@keyframes float{
+  to{transform:translateY(-120vh)}
+}
+
+.heart{
+  animation:beat 1s infinite;
+}
+@keyframes beat{
+  50%{transform:scale(1.2)}
+}
+
+/* avatar */
+.avatar{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  margin:0 auto 10px;
+  background:url('photo.jpg') center/cover no-repeat;
+  box-shadow:0 0 20px rgba(0,0,0,0.3);
+  animation:floatAvatar 3s ease-in-out infinite;
+  border:3px solid #fff;
+}
+
+@keyframes floatAvatar{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+
+/* music button */
+.top{
+  position:absolute;
+  top:10px;
+  right:10px;
+  font-size:20px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="top" onclick="toggleMusic()">🔊</div>
+
+<audio id="bgMusic" loop>
+  <source src="https://actions.google.com/sounds/v1/ambiences/soft_wind.ogg">
+</audio>
+
+<div id="app"></div>
+
+<script>
+const app=document.getElementById("app");
+const music=document.getElementById("bgMusic");
+let musicOn=false;
+
+function toggleMusic(){
+  if(musicOn){
+    music.pause();
+    event.target.innerText="🔇";
+  } else {
+    music.volume = 1.0;
+    music.play();
+    event.target.innerText="🔊";
+  }
+  musicOn=!musicOn;
+}
+
+// typing effect
+function typeText(el,text,speed=28){
+  el.innerHTML="";
+  let i=0;
+  let int=setInterval(()=>{
+    el.innerHTML+=text[i];
+    i++;
+    if(i>=text.length) clearInterval(int);
+  },speed);
+}
+
+// MAIN
+function main(){
+  app.innerHTML=`
+  <div class="card">
+    <div class="avatar"></div>
+    <h2 class="heart">Forgive me Saumya 🥺</h2>
+    <p id="text"></p>
+
+    <button class="yes" onclick="yes()">Yes, I forgive you ❤️</button>
+    <button class="no" onclick="no1()">I don't 😤</button>
+  </div>
+  `;
+  typeText(document.getElementById("text"),
+  "I know I was wrong...\n\nPlease forgive me 🥺");
+}
+
+// YES
+function yes(){
+  app.innerHTML=`
+  <div class="card">
+    <div class="avatar"></div>
+    <h2 class="heart">Thank you Saumya ❤️</h2>
+    <p id="text"></p>
+  </div>
+  `;
+  typeText(document.getElementById("text"),
+  "You are seriously the best friend I could ever ask for 💫\n\nYou are very important to me 🫶\n\nThank you for forgiving me 🥺\n\nI promise I'll never do it again");
+
+  celebration();
+}
+
+// NO 1
+function no1(){
+  app.innerHTML=`
+  <div class="card">
+    <div class="avatar"></div>
+    <h2>Please think again 🥺</h2>
+    <p id="text"></p>
+
+    <button class="yes" onclick="yes()">Okay fine ❤️</button>
+    <button class="no" onclick="no2()">Still no 😤</button>
+  </div>
+  `;
+  typeText(document.getElementById("text"),
+  "You still have time...\n\nDon't do this 😭\n\nI really don't want to lose you 💔\n\nYou're my bestest friend...");
+}
+
+// NO 2
+function no2(){
+  app.innerHTML=`
+  <div class="card">
+    <div class="avatar"></div>
+    <h2>😂 Option Denied</h2>
+    <p id="text"></p>
+
+    <button class="yes" onclick="yes()">Okay I forgive you ❤️</button>
+  </div>
+  `;
+  typeText(document.getElementById("text"),
+  "Plssss naaa 🥺\n\nYou really can't escape this 😂\n\nJust forgive me already ❤️");
+}
+
+// celebration
+function celebration(){
+  for(let i=0;i<25;i++){
+    let e=document.createElement("div");
+    e.className="float";
+    e.innerText=Math.random()>0.5?"🎈":"✨";
+    e.style.left=Math.random()*100+"vw";
+    e.style.animationDuration=(3+Math.random()*3)+"s";
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(),6000);
+  }
+}
+
+main();
+</script>
+
+</body>
+</html>

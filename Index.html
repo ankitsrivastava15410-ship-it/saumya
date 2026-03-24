@@ -4,213 +4,175 @@ index.html
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Forgive Me Saumya</title>
+<title>Forgive me Saumya</title>
 
 <style>
 body{
   margin:0;
-  font-family: system-ui;
-  background:linear-gradient(135deg,#dbeafe,#ffffff);
+  font-family:Arial;
+  background:linear-gradient(135deg,#dbeafe,#f8fafc);
   display:flex;
   justify-content:center;
   align-items:center;
   height:100vh;
-  overflow:hidden;
 }
 
-/* card */
 .card{
-  max-width:360px;
-  padding:25px;
-  border-radius:20px;
-  background:#fff;
-  box-shadow:0 15px 40px rgba(0,0,0,0.2);
+  width:90%;
+  max-width:350px;
+  background:white;
+  padding:20px;
+  border-radius:15px;
   text-align:center;
-  animation:fade 0.5s ease;
+  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+  position:relative;
 }
-
-h2{margin-bottom:10px}
-p{opacity:0.85; min-height:90px; white-space:pre-line}
 
 button{
   width:100%;
-  padding:14px;
+  padding:12px;
   margin-top:10px;
   border:none;
-  border-radius:12px;
-  font-size:16px;
+  border-radius:10px;
+  font-size:15px;
   font-weight:bold;
 }
 
-.yes{background:#000;color:#fff}
-.no{background:#eee}
+.yes{background:#2563eb;color:white}
+.no{background:#eee;position:absolute}
 
-/* animations */
-@keyframes fade{
-  from{opacity:0; transform:translateY(10px)}
-  to{opacity:1}
+/* simple chibi */
+.chibi{
+  font-size:50px;
+  margin-bottom:10px;
 }
 
+/* floating */
 .float{
   position:absolute;
-  font-size:28px;
-  bottom:-50px;
+  font-size:22px;
   animation:float 5s linear infinite;
 }
 
 @keyframes float{
-  to{transform:translateY(-120vh)}
-}
-
-.heart{
-  animation:beat 1s infinite;
-}
-@keyframes beat{
-  50%{transform:scale(1.2)}
-}
-
-/* avatar */
-.avatar{
-  width:100px;
-  height:100px;
-  border-radius:50%;
-  margin:0 auto 10px;
-  background:url('photo.jpg') center/cover no-repeat;
-  box-shadow:0 0 20px rgba(0,0,0,0.3);
-  animation:floatAvatar 3s ease-in-out infinite;
-  border:3px solid #fff;
-}
-
-@keyframes floatAvatar{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-10px)}
-}
-
-/* music button */
-.top{
-  position:absolute;
-  top:10px;
-  right:10px;
-  font-size:20px;
-  cursor:pointer;
+  to{transform:translateY(-100vh)}
 }
 </style>
 </head>
 
 <body>
 
-<div class="top" onclick="toggleMusic()">🔊</div>
-
-<audio id="bgMusic" loop>
-  <source src="https://actions.google.com/sounds/v1/ambiences/soft_wind.ogg">
-</audio>
-
 <div id="app"></div>
 
+<audio id="music" loop>
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+</audio>
+
 <script>
-const app=document.getElementById("app");
-const music=document.getElementById("bgMusic");
-let musicOn=false;
+const app = document.getElementById("app");
+const music = document.getElementById("music");
 
-function toggleMusic(){
-  if(musicOn){
-    music.pause();
-    event.target.innerText="🔇";
-  } else {
-    music.volume = 1.0;
-    music.play();
-    event.target.innerText="🔊";
-  }
-  musicOn=!musicOn;
+// START PAGE
+function start(){
+music.volume=1;
+music.play();
+
+app.innerHTML = `
+<div class="card">
+  <div class="chibi">👩‍🦱</div>
+  <h2>Forgive me Saumya</h2>
+
+  <p>
+Others are gud and u are stevia 😄  
+sweeter than them but healthy and good for me 💙  
+  </p>
+
+  <button class="yes" onclick="yes()">Yes I forgive u</button>
+  <button class="no" id="noBtn">I don't</button>
+</div>
+`;
+
+const btn = document.getElementById("noBtn");
+
+// moving button
+btn.onmouseover = () => {
+  const x = Math.random()*200 - 100;
+  const y = Math.random()*200 - 100;
+  btn.style.transform = `translate(${x}px,${y}px)`;
+};
+
+// if somehow clicked
+btn.onclick = noPage;
 }
 
-// typing effect
-function typeText(el,text,speed=28){
-  el.innerHTML="";
-  let i=0;
-  let int=setInterval(()=>{
-    el.innerHTML+=text[i];
-    i++;
-    if(i>=text.length) clearInterval(int);
-  },speed);
-}
-
-// MAIN
-function main(){
-  app.innerHTML=`
-  <div class="card">
-    <div class="avatar"></div>
-    <h2 class="heart">Forgive me Saumya 🥺</h2>
-    <p id="text"></p>
-
-    <button class="yes" onclick="yes()">Yes, I forgive you ❤️</button>
-    <button class="no" onclick="no1()">I don't 😤</button>
-  </div>
-  `;
-  typeText(document.getElementById("text"),
-  "I know I was wrong...\n\nPlease forgive me 🥺");
-}
-
-// YES
+// YES PAGE
 function yes(){
-  app.innerHTML=`
-  <div class="card">
-    <div class="avatar"></div>
-    <h2 class="heart">Thank you Saumya ❤️</h2>
-    <p id="text"></p>
-  </div>
-  `;
-  typeText(document.getElementById("text"),
-  "You are seriously the best friend I could ever ask for 💫\n\nYou are very important to me 🫶\n\nThank you for forgiving me 🥺\n\nI promise I'll never do it again");
+app.innerHTML = `
+<div class="card">
+  <div class="chibi">😊</div>
+  <h2>Thank you Saumya</h2>
 
-  celebration();
+  <p>
+thankyou saumya u are the best friend i could ask for  
+u are very important to me  
+thanks for forgiving me  
+I'll never do it again
+  </p>
+</div>
+`;
+celebrate();
 }
 
-// NO 1
-function no1(){
-  app.innerHTML=`
-  <div class="card">
-    <div class="avatar"></div>
-    <h2>Please think again 🥺</h2>
-    <p id="text"></p>
+// NO PAGE
+function noPage(){
+app.innerHTML = `
+<div class="card">
+  <div class="chibi">😔</div>
+  <h2>Please</h2>
 
-    <button class="yes" onclick="yes()">Okay fine ❤️</button>
-    <button class="no" onclick="no2()">Still no 😤</button>
-  </div>
-  `;
-  typeText(document.getElementById("text"),
-  "You still have time...\n\nDon't do this 😭\n\nI really don't want to lose you 💔\n\nYou're my bestest friend...");
+  <p>
+u still have time choose correctly or i will lose my bestest friend  
+pls forgive me u are my bestest friend
+  </p>
+
+  <button class="yes" onclick="yes()">Yes I forgive u</button>
+  <button class="no2" onclick="finalNo()">I don't</button>
+</div>
+`;
 }
 
-// NO 2
-function no2(){
-  app.innerHTML=`
-  <div class="card">
-    <div class="avatar"></div>
-    <h2>😂 Option Denied</h2>
-    <p id="text"></p>
+// FINAL NO PAGE
+function finalNo(){
+app.innerHTML = `
+<div class="card">
+  <div class="chibi">😭</div>
+  <h2>Option Denied</h2>
 
-    <button class="yes" onclick="yes()">Okay I forgive you ❤️</button>
-  </div>
-  `;
-  typeText(document.getElementById("text"),
-  "Plssss naaa 🥺\n\nYou really can't escape this 😂\n\nJust forgive me already ❤️");
+  <p>
+plss na 😭  
+tum mere saath pash gyi jindagi bhar ke liye  
+u cant do anything about it
+  </p>
+
+  <button class="yes" onclick="yes()">Okay fine</button>
+</div>
+`;
 }
 
-// celebration
-function celebration(){
-  for(let i=0;i<25;i++){
-    let e=document.createElement("div");
-    e.className="float";
-    e.innerText=Math.random()>0.5?"🎈":"✨";
-    e.style.left=Math.random()*100+"vw";
-    e.style.animationDuration=(3+Math.random()*3)+"s";
-    document.body.appendChild(e);
-    setTimeout(()=>e.remove(),6000);
-  }
+// CELEBRATION
+function celebrate(){
+for(let i=0;i<20;i++){
+  let e=document.createElement("div");
+  e.className="float";
+  e.innerText=Math.random()>0.5?"🎈":"✨";
+  e.style.left=Math.random()*100+"vw";
+  e.style.animationDuration=(3+Math.random()*3)+"s";
+  document.body.appendChild(e);
+  setTimeout(()=>e.remove(),6000);
+}
 }
 
-main();
+start();
 </script>
 
 </body>
